@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<header th:replace="~{fragments/header :: header}"></header>
+<head th:replace="~{fragments/header :: nav}"></head>
+
+		<!-- BREADCRUMB -->
+		<div id="breadcrumb" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="breadcrumb-header">Login</h3>
+						<ul class="breadcrumb-tree">
+							<li><a th:href="@{/}">Home</a></li>
+							<li class="active">Login</li>
+						</ul>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /BREADCRUMB -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<form class="form" th:action="@{/login}" method="post">
+						<label class="form-label" for="email">Email:</label>
+						<input class="form-input" type="email" id="email" name="email" required>
+
+						<label class="form-label" for="password">Password:</label>
+						<input class="form-input" type="password" id="password" name="password" required>
+
+						<input class="form-submit" type="submit" value="Login">
+					</form>
+
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+		<div th:replace="~{fragments/footer :: newsletter}"/>
+		<div th:replace="~{fragments/footer :: footer}"/>
+		<div th:replace="~{fragments/footer :: scripts}"/>
