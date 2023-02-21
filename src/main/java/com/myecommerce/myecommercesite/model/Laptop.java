@@ -1,21 +1,34 @@
 package com.myecommerce.myecommercesite.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "laptops")
+@PrimaryKeyJoinColumn(name = "fk_product_id")
 public class Laptop extends Product {
+    @Column(name="processor")
     private String processor;
+    @Column(name="ram")
     private Integer ram;
+    @Column(name="storage")
     private Integer storage;
+    @Column(name="screen_size")
     private Double screenSize;
+    @Column(name="operating_system")
     private String operatingSystem;
 
-    public Laptop(Integer id, String name, String sku, Double weight, Double width, Double height, Double depth,
-                  String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean, String processor, Integer ram, Integer storage, Double screenSize, String operatingSystem) {
-        super(id,  name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean);
+    public Laptop(){};
+
+    public Laptop(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean, String processor, Integer ram, Integer storage, Double screenSize, String operatingSystem) {
+        super(generalDescription, technicalDescription, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean);
         this.processor = processor;
         this.ram = ram;
         this.storage = storage;
         this.screenSize = screenSize;
         this.operatingSystem = operatingSystem;
     }
+
+
 
     public String getProcessor() {
         return processor;
@@ -56,22 +69,4 @@ public class Laptop extends Product {
     public void setOperatingSystem(String operatingSystem) {
         this.operatingSystem = operatingSystem;
     }
-
-    public void setTechnicalDescription(String description){
-        super.setTechnicalDescription(description);
-    }
-
-    public String getTechnicalDescription(){
-        return super.getTechnicalDescription();
-    }
-
-    public void setGeneralDescription(String description){
-        super.setGeneralDescription(description);
-    }
-
-    public String getGeneralDescription(){
-        return super.getGeneralDescription();
-    }
-
-
 }

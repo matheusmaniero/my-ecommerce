@@ -1,27 +1,55 @@
 package com.myecommerce.myecommercesite.model;
 
-public abstract class Product {
+import jakarta.persistence.*;
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "products")
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name="general_description")
     private String generalDescription;
+    @Column(name="technical_description")
     private String technicalDescription;
+    @Column(name="name")
     private String name;
+    @Column(name="sku")
     private String sku;
+    @Column(name="weight")
     private Double weight;
+    @Column(name="width")
     private Double width;
+    @Column(name="height")
     private Double height;
+    @Column(name="depth")
     private Double depth;
+    @Column(name="manufacturer")
     private String manufacturer;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_category_id")
     private Category category;
+    @Column(name="price")
     private Double price;
+    @Enumerated(EnumType.STRING)
+    @Column(name="color")
     private ColorEnum color;
+    @Column(name="model")
     private String model;
+    @Column(name="quantity")
     private Integer quantity;
+    @Column(name="ean")
     private Long ean;
 
-    public Product(Integer id,  String name, String sku, Double weight, Double width,
-                   Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean) {
+    public Product(){
+    }
 
-        this.id = id;
+    public Product(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean) {
+
+        this.generalDescription = generalDescription;
+        this.technicalDescription = technicalDescription;
         this.name = name;
         this.sku = sku;
         this.weight = weight;
@@ -164,4 +192,7 @@ public abstract class Product {
     public void setEan(Long ean) {
         this.ean = ean;
     }
-}
+};
+
+
+

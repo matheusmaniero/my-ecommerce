@@ -1,19 +1,28 @@
 package com.myecommerce.myecommercesite.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "headsets")
+@PrimaryKeyJoinColumn(name = "fk_product_id")
 public class HeadSet extends Product {
-
+    @Column(name = "speaker_dimensions")
     private Integer speakerDimensions;
-
+    @Column(name = "cable_length")
     private Double cableLength;
-
+    @Column(name = "bluetooth")
     private String isBluetooth;
-
+    @Column(name = "microphone_dimensions")
     private String microphoneDimensions;
 
-    public HeadSet(Integer id, String name, String sku,
-                   Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean,
-                   Integer speakerDimensions, Double cableLength, String isBluetooth, String microphoneDimensions) {
-        super(id, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean);
+    public HeadSet() {
+    }
+
+    public HeadSet(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean, Integer speakerDimensions, Double cableLength, String isBluetooth, String microphoneDimensions) {
+        super(generalDescription, technicalDescription, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean);
         this.speakerDimensions = speakerDimensions;
         this.cableLength = cableLength;
         this.isBluetooth = isBluetooth;
@@ -52,19 +61,5 @@ public class HeadSet extends Product {
         this.microphoneDimensions = microphoneDimensions;
     }
 
-    public void setTechnicalDescription(String description){
-        super.setTechnicalDescription(description);
-    }
 
-    public String getTechnicalDescription(){
-        return super.getTechnicalDescription();
-    }
-
-    public void setGeneralDescription(String description){
-        super.setGeneralDescription(description);
-    }
-
-    public String getGeneralDescription(){
-        return super.getGeneralDescription();
-    }
 }

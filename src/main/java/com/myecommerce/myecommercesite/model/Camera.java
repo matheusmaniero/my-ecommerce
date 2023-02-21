@@ -1,17 +1,31 @@
 package com.myecommerce.myecommercesite.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "cameras")
+@PrimaryKeyJoinColumn(name = "fk_product_id")
 public class Camera extends Product {
+    @Column(name = "optical_zoom")
     private Integer opticalZoom;
+    @Column(name = "recording_resolution")
     private String recordingResolution;
+    @Column(name = "screen_size")
     private Double screenSize;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "connection_type")
     private ConnectionEnum connection;
+    @Column(name = "video_resolution")
     private String videoResolution;
+    @Column(name = "storage")
     private Integer storage;
 
-    public Camera(Integer id, String name, String sku, Double weight, Double width, Double height, Double depth,
-                  String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean, Integer opticalZoom, String recordingResolution,
-                  Double screenSize, ConnectionEnum connection, String videoResolution, Integer storage) {
-        super(id,  name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean);
+    public Camera() {
+
+    }
+
+    public Camera(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean, Integer opticalZoom, String recordingResolution, Double screenSize, ConnectionEnum connection, String videoResolution, Integer storage) {
+        super(generalDescription, technicalDescription, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean);
         this.opticalZoom = opticalZoom;
         this.recordingResolution = recordingResolution;
         this.screenSize = screenSize;
@@ -68,19 +82,6 @@ public class Camera extends Product {
         this.storage = storage;
     }
 
-    public void setTechnicalDescription(String description){
-        super.setTechnicalDescription(description);
-    }
 
-    public String getTechnicalDescription(){
-        return super.getTechnicalDescription();
-    }
-
-    public void setGeneralDescription(String description){
-        super.setGeneralDescription(description);
-    }
-
-    public String getGeneralDescription(){
-        return super.getGeneralDescription();
-    }
 }
+

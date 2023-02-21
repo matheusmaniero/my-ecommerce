@@ -1,16 +1,28 @@
 package com.myecommerce.myecommercesite.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "smartphones")
+@PrimaryKeyJoinColumn(name = "fk_product_id")
 public class SmartPhone extends Product {
+    @Column(name = "storage")
     private Integer storage;
+    @Column(name = "screen_size")
     private Double screenSize;
+    @Column(name = "operating_system")
     private String operatingSystem;
+    @Column(name = "camera_resolution")
     private Integer cameraResolution;
 
+    public SmartPhone() {
+    }
 
-    public SmartPhone(Integer id, String name, String sku, Double weight,
-                      Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean,
-                      Integer storage, Double screenSize, String operatingSystem,  Integer cameraResolution) {
-        super(id, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean);
+    public SmartPhone(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean, Integer storage, Double screenSize, String operatingSystem, Integer cameraResolution) {
+        super(generalDescription, technicalDescription, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean);
         this.storage = storage;
         this.screenSize = screenSize;
         this.operatingSystem = operatingSystem;
@@ -49,19 +61,8 @@ public class SmartPhone extends Product {
         this.cameraResolution = cameraResolution;
     }
 
-    public void setTechnicalDescription(String description){
-        super.setTechnicalDescription(description);
-    }
 
-    public String getTechnicalDescription(){
-        return super.getTechnicalDescription();
-    }
-
-    public void setGeneralDescription(String description){
-        super.setGeneralDescription(description);
-    }
-
-    public String getGeneralDescription(){
-        return super.getGeneralDescription();
-    }
 }
+
+
+
