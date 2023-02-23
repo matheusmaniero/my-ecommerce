@@ -2,6 +2,7 @@ package com.myecommerce.myecommercesite.services.tests;
 
 import com.myecommerce.myecommercesite.builders.ProductBuilder;
 import com.myecommerce.myecommercesite.model.Product;
+import com.myecommerce.myecommercesite.repository.CategoryRepository;
 import com.myecommerce.myecommercesite.repository.ProductRepository;
 import com.myecommerce.myecommercesite.service.ProductService;
 import org.junit.Assert;
@@ -27,6 +28,10 @@ public class ProductServiceTest {
     ProductService productService;
     @MockBean
      ProductRepository productRepository;
+
+    @MockBean
+    CategoryRepository categoryRepository;
+
     @TestConfiguration
     static class ProductServiceTestConfiguration{
         @Bean
@@ -37,7 +42,7 @@ public class ProductServiceTest {
 
     @Before
     public void setup(){
-        List<Product> productList = ProductBuilder.createProductBuilder().createProductList(38);
+        List<Product> productList = ProductBuilder.createProductBuilder().createGenericProductList(38);
         Pageable pageable = PageRequest.of(0, 9);
         Page<Product> pages = new PageImpl<>(productList, pageable, productList.size());
         Mockito.when(productRepository.findAll(pageable)).thenReturn(pages);
@@ -46,12 +51,12 @@ public class ProductServiceTest {
 
     @Test
     public void shouldReturnPageOfProducts() {
-        List<Product> productList = ProductBuilder.createProductBuilder().createProductList(38);
+        List<Product> productList = ProductBuilder.createProductBuilder().createGenericProductList(38);
         Pageable pageable = PageRequest.of(0, 9);
         Page<Product> pages = new PageImpl<>(productList, pageable, productList.size());
 
 
-        Page<Product> pageFromService = this.productService.getProductsPaginated(1,9);
+        Page<Product> pageFromService = this.productService.getAllProductsPaginated(1,9);
 
         Assert.assertTrue(pageFromService.hasContent());
         Assert.assertEquals(pages.getTotalElements(),pageFromService.getTotalElements());

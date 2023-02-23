@@ -21,8 +21,8 @@ public class HeadSet extends Product {
     public HeadSet() {
     }
 
-    public HeadSet(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean, Integer speakerDimensions, Double cableLength, String isBluetooth, String microphoneDimensions) {
-        super(generalDescription, technicalDescription, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean);
+    public HeadSet(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean,Integer sold, Integer speakerDimensions, Double cableLength, String isBluetooth, String microphoneDimensions) {
+        super(generalDescription, technicalDescription, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean, sold );
         this.speakerDimensions = speakerDimensions;
         this.cableLength = cableLength;
         this.isBluetooth = isBluetooth;

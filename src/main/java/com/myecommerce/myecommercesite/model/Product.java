@@ -27,7 +27,6 @@ public class Product {
     private Double depth;
     @Column(name="manufacturer")
     private String manufacturer;
-
     @ManyToOne
     @JoinColumn(name = "fk_category_id")
     private Category category;
@@ -42,11 +41,13 @@ public class Product {
     private Integer quantity;
     @Column(name="ean")
     private Long ean;
+    @Column(name="sold")
+    private Integer sold;
 
     public Product(){
     }
 
-    public Product(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean) {
+    public Product(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean, Integer sold) {
 
         this.generalDescription = generalDescription;
         this.technicalDescription = technicalDescription;
@@ -63,6 +64,7 @@ public class Product {
         this.model = model;
         this.quantity = quantity;
         this.ean = ean;
+        this.sold = sold;
     }
 
     public Integer getId() {
@@ -191,6 +193,14 @@ public class Product {
 
     public void setEan(Long ean) {
         this.ean = ean;
+    }
+
+    public Integer getSold() {
+        return sold;
+    }
+
+    public void setSold(Integer sold) {
+        this.sold = sold;
     }
 };
 

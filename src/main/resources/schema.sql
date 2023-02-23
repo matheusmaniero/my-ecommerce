@@ -24,6 +24,7 @@ color colors NOT NULL,
 model varchar(255) NOT NULL,
 quantity integer NOT NULL,
 ean bigint NOT NULL,
+sold integer NOT NULL,
 PRIMARY KEY (id),
 FOREIGN KEY (fk_category_id) REFERENCES categories (id)
 );

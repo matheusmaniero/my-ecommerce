@@ -19,8 +19,8 @@ public class Laptop extends Product {
 
     public Laptop(){};
 
-    public Laptop(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean, String processor, Integer ram, Integer storage, Double screenSize, String operatingSystem) {
-        super(generalDescription, technicalDescription, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean);
+    public Laptop(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean,Integer sold, String processor, Integer ram, Integer storage, Double screenSize, String operatingSystem) {
+        super(generalDescription, technicalDescription, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean, sold);
         this.processor = processor;
         this.ram = ram;
         this.storage = storage;

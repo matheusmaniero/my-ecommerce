@@ -1,5 +1,6 @@
 package com.myecommerce.myecommercesite.repository;
 
+import com.myecommerce.myecommercesite.model.Category;
 import com.myecommerce.myecommercesite.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,4 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Integer> {
     Page<Product> findAll(Pageable pageable);
+    Page<Product> findByCategory(Pageable pageable, Category category);
+
+
 }

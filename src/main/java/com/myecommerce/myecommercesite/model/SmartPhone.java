@@ -21,8 +21,8 @@ public class SmartPhone extends Product {
     public SmartPhone() {
     }
 
-    public SmartPhone(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean, Integer storage, Double screenSize, String operatingSystem, Integer cameraResolution) {
-        super(generalDescription, technicalDescription, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean);
+    public SmartPhone(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean,Integer sold, Integer storage, Double screenSize, String operatingSystem, Integer cameraResolution) {
+        super(generalDescription, technicalDescription, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean, sold );
         this.storage = storage;
         this.screenSize = screenSize;
         this.operatingSystem = operatingSystem;

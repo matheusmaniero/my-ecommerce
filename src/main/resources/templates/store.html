@@ -155,7 +155,7 @@
 							<h3 class="aside-title">Top selling</h3>
 							<div class="product-widget">
 								<div class="product-img">
-									<img src="./img/product01.png" alt="">
+									<img src="/./img/product01.png" alt="">
 								</div>
 								<div class="product-body">
 									<p class="product-category">Category</p>
@@ -166,7 +166,7 @@
 
 							<div class="product-widget">
 								<div class="product-img">
-									<img src="./img/product02.png" alt="">
+									<img src="/./img/product02.png" alt="">
 								</div>
 								<div class="product-body">
 									<p class="product-category">Category</p>
@@ -177,7 +177,7 @@
 
 							<div class="product-widget">
 								<div class="product-img">
-									<img src="./img/product03.png" alt="">
+									<img src="/./img/product03.png" alt="">
 								</div>
 								<div class="product-body">
 									<p class="product-category">Category</p>
@@ -195,21 +195,54 @@
 						<!-- store top filter -->
 						<div class="store-filter clearfix">
 							<div class="store-sort">
-								<label>
-									Sort By:
-									<select class="input-select">
-										<option value="0">Popular</option>
-										<option value="1">Position</option>
-									</select>
-								</label>
+								<form action="" method="get">
+									<label>
+										Show
+										<select  name="sortedByPrice" onchange="this.form.submit()">
+											<option value="0" th:text="${sortingType}"></option>
+											<option value="asc" th:if="${sortingType != 'Lowest Prices'}">Lowest Prices</option>
+											<option value="desc" th:if="${sortingType != 'Highest Prices'}">Highest Prices</option>
+										</select>
+										items per page
+									</label>
+									<input type="hidden" name="max" th:value="${selectedMax}">
+									<input type="hidden" name="relevance" th:value="${relevance}">
+								</form>
 
-								<label>
-									Show:
-									<select class="input-select">
-										<option value="0">20</option>
-										<option value="1">50</option>
-									</select>
-								</label>
+								<form action="" method="get">
+									<label>
+										Show
+										<select  name="relevance" onchange="this.form.submit()">
+											<option value="0" th:text="${relevanceName}"></option>
+											<option value="bestSellers" th:if="${relevanceName != 'Best Sellers'}">Best Sellers</option>
+											<option value="any" th:if="${relevanceName != 'Any'}">Any</option>
+
+										</select>
+										items per page
+									</label>
+									<input type="hidden" name="max" th:value="${selectedMax}">
+									<input type="hidden" name="sortedByPrice" th:value="${sortedByPrice}">
+
+								</form>
+
+
+
+								<form action="" method="get">
+									<label>
+										Show
+										<select  name="max" onchange="this.form.submit()">
+											<option value="0"  th:text="${selectedMax}"></option>
+											<option value="9" th:if="${selectedMax != 9}" >9</option>
+											<option value="18" th:if="${selectedMax != 18}" >18</option>
+											<option value="27" th:if="${selectedMax != 27}"  >27</option>
+
+										</select>
+										items per page
+									</label>
+									<input type="hidden" name="sortedByPrice" th:value="${sortedByPrice}">
+									<input type="hidden" name="relevance" th:value="${relevance}">
+								</form>
+
 							</div>
 							<ul class="store-grid">
 								<li class="active"><i class="fa fa-th"></i></li>
@@ -224,7 +257,7 @@
 							<div class="col-md-4 col-xs-6" th:each="product : ${productsPaginated}">
 								<div class="product">
 									<div class="product-img">
-										<img src="./img/product01.png" alt="">
+										<img src="/./img/product01.png" alt="">
 										<div class="product-label">
 											<span class="sale">-30%</span>
 											<span class="new">NEW</span>
@@ -261,7 +294,7 @@
 						<div class="store-filter clearfix">
 							<ul class="store-pagination" th:if="${totalPages} > 1" th:each="i: ${#numbers.sequence(totalPages,1)}">
 								<li th:if="${currentPage != i}">
-									<a  th:href="@{'/store?page='+${i}}">[[${i}]]</a>
+									<a  th:href="@{'?page='+${i}}+'&max='+${selectedMax}+'&sortedByPrice='+${sortedByPrice}+'&relevance='+${relevance}">[[${i}]]</a>
 								</li>
 								<li th:unless="${currentPage != i}" class="active">[[${i}]]</li>
 							</ul>

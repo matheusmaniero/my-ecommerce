@@ -3,6 +3,7 @@ package com.myecommerce.myecommercesite.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="categories")
@@ -23,6 +24,11 @@ public class Category {
 
     public Category(){};
 
+    public Category(int id,String name){
+        this.id = id;
+        this.name = name;
+    }
+
     public Category(String name) {
         this.name = name;
     }
@@ -41,5 +47,17 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Category category)) return false;
+        return Objects.equals(id, category.id) && Objects.equals(name, category.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

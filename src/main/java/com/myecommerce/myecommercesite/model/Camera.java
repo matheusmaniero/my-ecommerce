@@ -24,8 +24,8 @@ public class Camera extends Product {
 
     }
 
-    public Camera(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean, Integer opticalZoom, String recordingResolution, Double screenSize, ConnectionEnum connection, String videoResolution, Integer storage) {
-        super(generalDescription, technicalDescription, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean);
+    public Camera(String generalDescription, String technicalDescription, String name, String sku, Double weight, Double width, Double height, Double depth, String manufacturer, Category category, Double price, ColorEnum color, String model, Integer quantity, Long ean,Integer sold, Integer opticalZoom, String recordingResolution, Double screenSize, ConnectionEnum connection, String videoResolution, Integer storage) {
+        super(generalDescription, technicalDescription, name, sku, weight, width, height, depth, manufacturer, category, price, color, model, quantity, ean, sold);
         this.opticalZoom = opticalZoom;
         this.recordingResolution = recordingResolution;
         this.screenSize = screenSize;
