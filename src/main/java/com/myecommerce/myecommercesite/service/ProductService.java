@@ -1,5 +1,6 @@
 package com.myecommerce.myecommercesite.service;
 
+import com.myecommerce.myecommercesite.exceptions.GeneralException;
 import com.myecommerce.myecommercesite.model.Category;
 import com.myecommerce.myecommercesite.model.Product;
 import com.myecommerce.myecommercesite.repository.ProductRepository;
@@ -9,8 +10,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ProductService {
@@ -25,73 +24,68 @@ public class ProductService {
         this.categoryService = categoryService;
     }
 
-    public Page<Product> serviceProductHandler(int page, int max, String category, String sortedPrice, String relevance){
+    public Page<Product> serviceProductHandler(int page, int max, String category, String sortingType) {
 
-        if (category.equals("all") && sortedPrice.equals("unsorted") && relevance.equals("any")){
-            return getAllProductsPaginated(page,max);
-        }else if (category.equals("all") && sortedPrice.equals("asc") && relevance.equals("any")){
-            return getAllProductsSortedByPriceAsc(page,max);
-        }else if (!category.equals("all") && sortedPrice.equals("unsorted") && relevance.equals("any")){
-            List<Category> availableCategories = this.categoryService.getAllCategories();
-            for (Category cat : availableCategories){
-                if (cat.getName().toLowerCase().equals(category.toLowerCase())){
-                    return getProductsByCategory(page,max,cat);
-                }
-            }
+        if (!category.equals("all") && !sortingType.equals("unsorted")){
+            Category cat = this.categoryService.getCategoryByName(category);
+            return getProductsWithCategoryAndSorted(page,max,cat,sortingType);
+        }else if (!category.equals("all")){
+            Category cat = this.categoryService.getCategoryByName(category);
+            return getProductsWithCategory(page,max,cat);
 
-        }else if (category.equals("all") && sortedPrice.equals("desc") && relevance.equals("any")){
-            return getAllProductsSortedByPriceDesc(page,max);
-        }else if (!category.equals("all") && sortedPrice.equals("asc") && relevance.equals("any")){
-            List<Category> availableCategories = this.categoryService.getAllCategories();
-            for (Category cat : availableCategories){
-                if (cat.getName().toLowerCase().equals(category.toLowerCase())){
-                    return getProductByCategorySortedByPriceAsc(page,max,cat);
-                }
-            }
+        }else if (category.equals("all") && !sortingType.equals("unsorted")) {
+            return getAllProductsSorted(page,max,sortingType);
 
-        }else if (!category.equals("all") && sortedPrice.equals("desc") && relevance.equals("any")){
-            List<Category> availableCategories = this.categoryService.getAllCategories();
-            for (Category cat : availableCategories){
-                if (cat.getName().toLowerCase().equals(category.toLowerCase())){
-                    return getProductByCategorySortedByPriceDesc(page,max,cat);
-                }
-            }
         }
 
-        return null;
+        return getAllProducts(page,max);
 
     }
 
-    public Page<Product> getAllProductsPaginated(int page, int max){
+    private Page<Product> getAllProductsSorted(int page, int max, String sortingType) {
+
+        if (sortingType.equals("desc")){
+            Pageable pageable = PageRequest.of(page-1,max, Sort.by("price").descending());
+            return this.productRepository.findAll(pageable);
+        }else if (sortingType.equals("asc")){
+            Pageable pageable = PageRequest.of(page-1,max, Sort.by("price").ascending());
+            return this.productRepository.findAll(pageable);
+        }else if (sortingType.equals("relevance")){
+            Pageable pageable = PageRequest.of(page-1,max, Sort.by("sold").descending());
+            return this.productRepository.findAll(pageable);
+        }
+
+        throw new GeneralException("Sorting Type Unrecognizable.");
+
+
+    }
+
+    private Page<Product> getAllProducts(int page, int max) {
         Pageable pageable = PageRequest.of(page-1,max);
-        Page<Product> pages = this.productRepository.findAll(pageable);
-        return pages;
-
-    }
-
-    public Page<Product> getProductsByCategory(int page, int max, Category category){
-        Pageable pageable = PageRequest.of(page-1,max);
-        Page<Product> pages = this.productRepository.findByCategory(pageable,category);
-        return pages;
-    }
-    public Page<Product> getAllProductsSortedByPriceDesc(int page, int max){
-        Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").descending());
         return this.productRepository.findAll(pageable);
     }
 
-    public Page<Product> getAllProductsSortedByPriceAsc(int page, int max){
-        Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").ascending());
-        return this.productRepository.findAll(pageable);
+    private Page<Product> getProductsWithCategory(int page, int max, Category cat) {
+        Pageable pageable = PageRequest.of(page-1,max);
+        return this.productRepository.findByCategory(pageable,cat);
+
     }
 
-    public Page<Product> getProductByCategorySortedByPriceAsc(int page, int max, Category category){
-        Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").ascending());
-        return this.productRepository.findByCategory(pageable,category);
-    }
+    private Page<Product> getProductsWithCategoryAndSorted(int page, int max, Category cat, String sortingType) {
 
-    public Page<Product> getProductByCategorySortedByPriceDesc(int page, int max, Category category){
-        Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").descending());
-        return this.productRepository.findByCategory(pageable,category);
+        if (sortingType.equals("desc")){
+            Pageable pageable = PageRequest.of(page-1,max, Sort.by("price").descending());
+            return this.productRepository.findByCategory(pageable,cat);
+        }else if (sortingType.equals("asc")){
+            Pageable pageable = PageRequest.of(page-1,max, Sort.by("price").ascending());
+            return this.productRepository.findByCategory(pageable,cat);
+        }else if (sortingType.equals("relevance")){
+            Pageable pageable = PageRequest.of(page-1,max, Sort.by("sold").descending());
+            return this.productRepository.findByCategory(pageable,cat);
+        }
+
+        throw new GeneralException("Sorting Type Unrecognizable.");
+
     }
 
 }

@@ -25,31 +25,27 @@ public class StoreController {
     @GetMapping("/store/{category}")
     public String showProducts(@PathVariable String category ,@RequestParam(defaultValue = "1") int page,
                                @RequestParam(defaultValue = "9") int max,
-                               @RequestParam(defaultValue = "unsorted") String sortedByPrice,
-                               @RequestParam(defaultValue = "any") String relevance, Model model){
+                               @RequestParam(defaultValue = "unsorted") String sortingType, Model model){
 
-        Page<Product> productsPaginated = this.productService.serviceProductHandler(page,max,category,sortedByPrice,relevance);
+        Page<Product> productsPaginated = this.productService.serviceProductHandler(page,max,category,sortingType);
 
         if (productsPaginated == null) return "error";
 
-        String sortingType = new String();
-        String relevanceName = new String();
+        String sortingDisplayName = new String();
 
-        if (sortedByPrice.equals("unsorted")) sortingType = " ";
-        else if (sortedByPrice.equals("asc")) sortingType = "Lowest Prices";
-        else if (sortedByPrice.equals("desc")) sortingType = "Highest Prices";
 
-        if (relevance.equals("any")) relevanceName = "Any";
-        else if (relevance.equals("bestSellers")) relevanceName = "Best Sellers";
+        if (sortingType.equals("unsorted")) sortingDisplayName = "Any";
+        else if (sortingType.equals("asc")) sortingDisplayName = "Lowest Prices";
+        else if (sortingType.equals("desc")) sortingDisplayName = "Highest Prices";
+        else if (sortingType.equals("relevance")) sortingDisplayName = "Best Sellers";
 
         model.addAttribute("productsPaginated",productsPaginated);
         model.addAttribute("currentPage",page);
         model.addAttribute("totalPages",productsPaginated.getTotalPages());
         model.addAttribute("selectedMax",max);
-        model.addAttribute("sortedByPrice",sortedByPrice);
-        model.addAttribute("relevance",relevance);
         model.addAttribute("sortingType",sortingType);
-        model.addAttribute("relevanceName",relevanceName);
+        model.addAttribute("sortingDisplayName",sortingDisplayName);
+
 
         return "store";
     }

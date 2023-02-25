@@ -198,34 +198,19 @@
 								<form action="" method="get">
 									<label>
 										Show
-										<select  name="sortedByPrice" onchange="this.form.submit()">
-											<option value="0" th:text="${sortingType}"></option>
-											<option value="asc" th:if="${sortingType != 'Lowest Prices'}">Lowest Prices</option>
-											<option value="desc" th:if="${sortingType != 'Highest Prices'}">Highest Prices</option>
-										</select>
-										items per page
-									</label>
-									<input type="hidden" name="max" th:value="${selectedMax}">
-									<input type="hidden" name="relevance" th:value="${relevance}">
-								</form>
-
-								<form action="" method="get">
-									<label>
-										Show
-										<select  name="relevance" onchange="this.form.submit()">
-											<option value="0" th:text="${relevanceName}"></option>
-											<option value="bestSellers" th:if="${relevanceName != 'Best Sellers'}">Best Sellers</option>
-											<option value="any" th:if="${relevanceName != 'Any'}">Any</option>
+										<select  name="sortingType" onchange="this.form.submit()">
+											<option value="0" th:text="${sortingDisplayName}"></option>
+											<option value="asc" th:if="${sortingDisplayName != 'Lowest Prices'}">Lowest Prices</option>
+											<option value="desc" th:if="${sortingDisplayName != 'Highest Prices'}">Highest Prices</option>
+											<option value="relevance" th:if="${sortingDisplayName != 'Best Sellers'}">Best Sellers</option>
+											<option value="unsorted" th:if="${sortingDisplayName != 'Any'}">Any</option>
 
 										</select>
-										items per page
+
 									</label>
 									<input type="hidden" name="max" th:value="${selectedMax}">
-									<input type="hidden" name="sortedByPrice" th:value="${sortedByPrice}">
 
 								</form>
-
-
 
 								<form action="" method="get">
 									<label>
@@ -239,8 +224,8 @@
 										</select>
 										items per page
 									</label>
-									<input type="hidden" name="sortedByPrice" th:value="${sortedByPrice}">
-									<input type="hidden" name="relevance" th:value="${relevance}">
+									<input type="hidden" name="sortingType" th:value="${sortingType}">
+
 								</form>
 
 							</div>
@@ -294,7 +279,7 @@
 						<div class="store-filter clearfix">
 							<ul class="store-pagination" th:if="${totalPages} > 1" th:each="i: ${#numbers.sequence(totalPages,1)}">
 								<li th:if="${currentPage != i}">
-									<a  th:href="@{'?page='+${i}}+'&max='+${selectedMax}+'&sortedByPrice='+${sortedByPrice}+'&relevance='+${relevance}">[[${i}]]</a>
+									<a  th:href="@{'?page='+${i}}+'&max='+${selectedMax}+'&sortingType='+${sortingType}">[[${i}]]</a>
 								</li>
 								<li th:unless="${currentPage != i}" class="active">[[${i}]]</li>
 							</ul>
