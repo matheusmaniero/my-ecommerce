@@ -11,6 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ProductService {
     final private ProductRepository productRepository;
@@ -85,6 +88,48 @@ public class ProductService {
         }
 
         throw new GeneralException("Sorting Type Unrecognizable.");
+
+    }
+
+    public Page<Product> getProductsByMultipleCategories(int page, int max, List<Category> categories, String sortingType){
+
+        List<Integer> categoryIds = new ArrayList<>();
+
+        for (Category cat : categories){
+            if (cat.isChecked()) categoryIds.add(cat.getId());
+        }
+
+        if (categoryIds.size() > 0){
+
+            if (sortingType.equals("asc")){
+                Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").ascending());
+                return this.productRepository.findByMultipleCategoryIds(categoryIds,pageable);
+            }else if (sortingType.equals("desc")){
+                Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").descending());
+                return this.productRepository.findByMultipleCategoryIds(categoryIds,pageable);
+            }else if (sortingType.equals("relevance")){
+                Pageable pageable = PageRequest.of(page-1,max,Sort.by("sold").descending());
+                return this.productRepository.findByMultipleCategoryIds(categoryIds,pageable);
+            }else if (sortingType.equals("unsorted")){
+                Pageable pageable = PageRequest.of(page-1,max);
+                return this.productRepository.findByMultipleCategoryIds(categoryIds,pageable);
+            }
+
+        }
+
+        return serviceProductHandler(page,max,"all","unsorted");
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 

@@ -2,7 +2,6 @@ package com.myecommerce.myecommercesite.model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,6 +12,9 @@ public class Category {
     private Integer id;
     @Column(name="name")
     private String name;
+
+    @Transient
+    private boolean checked;
 
     @ManyToOne
     @JoinTable (
@@ -59,5 +61,13 @@ public class Category {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }
