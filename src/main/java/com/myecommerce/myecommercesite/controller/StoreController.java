@@ -22,6 +22,8 @@ public class StoreController {
 
     private List<Category> allCategories;
 
+    private HashMap<String,Boolean> map = new HashMap<>();
+
     @Autowired
     public StoreController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
@@ -31,9 +33,12 @@ public class StoreController {
     @GetMapping("/store/{category}")
     public String showProducts(@PathVariable String category ,@RequestParam(defaultValue = "1") int page,
                                @RequestParam(defaultValue = "9") int max,
-                               @RequestParam(defaultValue = "unsorted") String sortingType, Model model){
+                               @RequestParam(defaultValue = "unsorted") String sortingType, Model model,@RequestParam(required = false) Integer priceMax,
+                               @RequestParam (required = false) Integer priceMin){
 
-        Page<Product> productsPaginated = this.productService.serviceProductHandler(page,max,category,sortingType);
+
+
+        Page<Product> productsPaginated = this.productService.serviceProductHandler(page,max,category,sortingType,priceMax,priceMin);
          allCategories = this.categoryService.getAllCategories();
 
         if (productsPaginated == null) return "error";
@@ -45,6 +50,11 @@ public class StoreController {
         else if (sortingType.equals("desc")) sortingDisplayName = "Highest Prices";
         else if (sortingType.equals("relevance")) sortingDisplayName = "Best Sellers";
 
+        String priceRangeFilter = "";
+        if (priceMax != null & priceMin != null) priceRangeFilter = "&priceMin="+priceMin+"&priceMax="+priceMax;
+
+
+
         model.addAttribute("productsPaginated",productsPaginated);
         model.addAttribute("currentPage",page);
         model.addAttribute("totalPages",productsPaginated.getTotalPages());
@@ -52,17 +62,18 @@ public class StoreController {
         model.addAttribute("sortingType",sortingType);
         model.addAttribute("sortingDisplayName",sortingDisplayName);
         model.addAttribute("allCategories",allCategories);
+        model.addAttribute("priceRangeFilter",priceRangeFilter);
+
+
 
         return "store";
     }
     @GetMapping("/store")
     public String showProductsWithMultipleCategories(@RequestParam(required = false,name = "Laptops") boolean laptops,@RequestParam(required = false,name = "Cameras") boolean cameras,
                                                      @RequestParam(required = false,name = "Headsets") boolean headsets,@RequestParam(required = false,name = "Smartphones") boolean smartphones,
-                                                     Model model,@RequestParam(defaultValue = "1") int page,
-                                                     @RequestParam(defaultValue = "9") int max,
-                                                     @RequestParam(defaultValue = "unsorted") String sortingType){
+                                                     Model model,@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "9") int max,@RequestParam(required = false) Integer priceMax,
+                                                     @RequestParam (required = false) Integer priceMin, @RequestParam(defaultValue = "unsorted") String sortingType){
 
-        HashMap<String,Boolean> map = new HashMap<>();
         map.put("Laptops",laptops);
         map.put("Cameras",cameras);
         map.put("Headsets",headsets);
@@ -86,10 +97,7 @@ public class StoreController {
             if (cat.isChecked() != map.get(cat.getName())) cat.setChecked(map.get(cat.getName()));
         }
 
-        Page<Product> productsPaginated = this.productService.getProductsByMultipleCategories(page,max,this.allCategories,sortingType);
-
-
-
+        Page<Product> productsPaginated = this.productService.getProductsByMultipleCategories(page,max,this.allCategories,sortingType,priceMax,priceMin);
 
         model.addAttribute("productsPaginated",productsPaginated);
         model.addAttribute("currentPage",page);
@@ -103,17 +111,15 @@ public class StoreController {
         model.addAttribute("headsets",headsets);
         model.addAttribute("smartphones",smartphones);
         model.addAttribute("filtersOn",filtersOn);
+        model.addAttribute("priceMax",priceMax);
+        model.addAttribute("priceMin",priceMin);
 
 
         return "store";
 
-
-
-
-
-
-
     }
+
+
 
 
 

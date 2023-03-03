@@ -32,6 +32,8 @@ public class ProductServiceTest {
     @MockBean
     CategoryRepository categoryRepository;
 
+    /*
+
     @TestConfiguration
     static class ProductServiceTestConfiguration{
         @Bean
@@ -39,6 +41,9 @@ public class ProductServiceTest {
             return new ProductService();
         }
     }
+
+
+     */
 
     @Before
     public void setup(){

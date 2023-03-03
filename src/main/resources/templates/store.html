@@ -35,78 +35,18 @@
 						<!-- aside Widget -->
 						<div class="aside">
 							<h3 class="aside-title">Price</h3>
-							<div class="price-filter">
-								<div id="price-slider"></div>
-								<div class="input-number price-min">
-									<input id="price-min" type="number">
-									<span class="qty-up">+</span>
-									<span class="qty-down">-</span>
-								</div>
-								<span>-</span>
-								<div class="input-number price-max">
-									<input id="price-max" type="number">
-									<span class="qty-up">+</span>
-									<span class="qty-down">-</span>
-								</div>
-							</div>
+							<ul>
+								<li><a  onclick="addParams(50,0)">Under $50</a></li>
+								<li><a  onclick="addParams(100,50)">$50 - $100</a></li>
+								<li><a  onclick="addParams(200,100)">$100 - $200</a></li>
+								<li><a  onclick="addParams(500,200)">$200 - $500</a></li>
+								<li><a  onclick="addParams(999999999, 500)">Above $500</a></li>
+							</ul>
+
 						</div>
 						<!-- /aside Widget -->
 
-						<!-- aside Widget -->
-						<div class="aside">
-							<h3 class="aside-title">Brand</h3>
-							<div class="checkbox-filter">
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-1">
-									<label for="brand-1">
-										<span></span>
-										SAMSUNG
-										<small>(578)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-2">
-									<label for="brand-2">
-										<span></span>
-										LG
-										<small>(125)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-3">
-									<label for="brand-3">
-										<span></span>
-										SONY
-										<small>(755)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-4">
-									<label for="brand-4">
-										<span></span>
-										SAMSUNG
-										<small>(578)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-5">
-									<label for="brand-5">
-										<span></span>
-										LG
-										<small>(125)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-6">
-									<label for="brand-6">
-										<span></span>
-										SONY
-										<small>(755)</small>
-									</label>
-								</div>
-							</div>
-						</div>
-						<!-- /aside Widget -->
+
 
 						<!-- aside Widget -->
 						<div class="aside">
@@ -246,7 +186,7 @@
 						<div class="store-filter clearfix">
 							<ul class="store-pagination" th:if="${totalPages} > 1" th:each="i: ${#numbers.sequence(totalPages,1)}">
 								<li th:if="${currentPage != i}">
-									<a th:href="@{'?page='+${i}}+'&max='+${selectedMax}+'&sortingType='+${sortingType}+ ${filtersOn != null and filtersOn != '' ? filtersOn : ''}">[[${i}]]</a>
+									<a th:href="@{'?page='+${i}}+'&max='+${selectedMax}+'&sortingType='+${sortingType}+ ${filtersOn != null and filtersOn != '' ? filtersOn : ''}+${priceRangeFilter != null and priceRangeFilter != '' ? priceRangeFilter : ''}">[[${i}]]</a>
 								</li>
 								<li th:unless="${currentPage != i}" class="active">[[${i}]]</li>
 							</ul>
@@ -261,6 +201,18 @@
 			<!-- /container -->
 		</div>
 		<!-- /SECTION -->
+
+
+
+			<script>
+    function addParams(priceMax,priceMin) {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('priceMax', priceMax);
+        urlParams.set('priceMin', priceMin);
+        const newUrl = window.location.pathname + '?' + urlParams.toString();
+        window.location.href = newUrl;
+    }
+</script>
 
 <div th:replace="~{fragments/footer :: newsletter}"/>
 <div th:replace="~{fragments/footer :: footer}"/>
