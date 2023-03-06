@@ -63,6 +63,8 @@ public class StoreController {
         model.addAttribute("sortingDisplayName",sortingDisplayName);
         model.addAttribute("allCategories",allCategories);
         model.addAttribute("priceRangeFilter",priceRangeFilter);
+        model.addAttribute("priceMaxParam",priceMax);
+        model.addAttribute("priceMinParam",priceMin);
 
 
 

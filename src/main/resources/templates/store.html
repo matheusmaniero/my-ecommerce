@@ -36,7 +36,7 @@
 						<div class="aside">
 							<h3 class="aside-title">Price</h3>
 							<ul>
-								<li><a  onclick="addParams(50,0)">Under $50</a></li>
+								<li><a  onclick="addParams(50,1)">Under $50</a></li>
 								<li><a  onclick="addParams(100,50)">$50 - $100</a></li>
 								<li><a  onclick="addParams(200,100)">$100 - $200</a></li>
 								<li><a  onclick="addParams(500,200)">$200 - $500</a></li>
@@ -111,6 +111,13 @@
 									<input type="hidden" th:if="${cameras}" name="Cameras" th:value="on">
 									<input type="hidden" th:if="${headsets}" name="Headsets" th:value="on">
 									<input type="hidden" th:if="${smartphones}" name="Smartphones" th:value="on">
+									<input type="hidden" th:if="${priceMinParam}" name="priceMin" th:value="${priceMinParam}">
+									<input type="hidden" th:if="${priceMaxParam}" name="priceMax" th:value="${priceMaxParam}">
+
+
+
+
+
 
 
 								</form>
