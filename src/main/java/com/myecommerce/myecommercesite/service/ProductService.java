@@ -27,56 +27,56 @@ public class ProductService {
         this.categoryService = categoryService;
     }
 
-    public Page<Product> serviceProductHandler(int page, int max, String category, String sortingType,Integer priceMax, Integer priceMin) {
+    public Page<Product> serviceProductHandler(int page, int max, String category, String sortingType, Integer priceMax, Integer priceMin) {
 
-        if (!category.equals("all") && !sortingType.equals("unsorted") && priceMax == null && priceMin == null){
+        if (!category.equals("all") && !sortingType.equals("unsorted") && priceMax == null && priceMin == null) {
             Category cat = this.categoryService.getCategoryByName(category);
-            return getProductsWithCategoryAndSorted(page,max,cat,sortingType);
-        }else if (!category.equals("all") && priceMax == null && priceMin == null){
+            return getProductsWithCategoryAndSorted(page, max, cat, sortingType);
+        } else if (!category.equals("all") && priceMax == null && priceMin == null) {
             Category cat = this.categoryService.getCategoryByName(category);
-            return getProductsWithCategory(page,max,cat);
+            return getProductsWithCategory(page, max, cat);
 
-        }else if (category.equals("all") && !sortingType.equals("unsorted") && priceMax == null && priceMin == null) {
-            return getAllProductsSorted(page,max,sortingType);
+        } else if (category.equals("all") && !sortingType.equals("unsorted") && priceMax == null && priceMin == null) {
+            return getAllProductsSorted(page, max, sortingType);
 
-        }else if (!category.equals("all") && !sortingType.equals("unsorted") && priceMax != null && priceMin != null){
+        } else if (!category.equals("all") && !sortingType.equals("unsorted") && priceMax != null && priceMin != null) {
             Category cat = this.categoryService.getCategoryByName(category);
-            return getProductsWithCategorySortedAndWithPriceRange(page,max,cat,sortingType,priceMax,priceMin);
-        
-        }else if (!category.equals("all") && priceMax != null && priceMin != null ) {
+            return getProductsWithCategorySortedAndWithPriceRange(page, max, cat, sortingType, priceMax, priceMin);
+
+        } else if (!category.equals("all") && priceMax != null && priceMin != null) {
             Category cat = this.categoryService.getCategoryByName(category);
-            return getProductsWithCategoryAndPriceRange(page,max,cat,priceMax,priceMin);            
-            
-        }else if (category.equals("all") && !sortingType.equals("unsorted") && priceMax != null && priceMin != null){
+            return getProductsWithCategoryAndPriceRange(page, max, cat, priceMax, priceMin);
 
-            return getAllProductsWithSortingAndPriceRange(page,max,sortingType,priceMax,priceMin);
+        } else if (category.equals("all") && !sortingType.equals("unsorted") && priceMax != null && priceMin != null) {
 
-        }else if (category.equals("all") && priceMax != null && priceMin != null){
-            return getAllProductsWithPriceRange(page,max,priceMax,priceMin);
+            return getAllProductsWithSortingAndPriceRange(page, max, sortingType, priceMax, priceMin);
+
+        } else if (category.equals("all") && priceMax != null && priceMin != null) {
+            return getAllProductsWithPriceRange(page, max, priceMax, priceMin);
         }
 
-        return getAllProducts(page,max);
+        return getAllProducts(page, max);
 
     }
 
     private Page<Product> getAllProductsWithPriceRange(int page, int max, Integer priceMax, Integer priceMin) {
 
-        Pageable pageable = PageRequest.of(page-1,max);
-        return this.productRepository.findByPriceRange(priceMin,priceMax,pageable);
+        Pageable pageable = PageRequest.of(page - 1, max);
+        return this.productRepository.findByPriceRange(priceMin, priceMax, pageable);
 
     }
 
     private Page<Product> getAllProductsWithSortingAndPriceRange(int page, int max, String sortingType, Integer priceMax, Integer priceMin) {
 
-        if (sortingType.equals("asc")){
-            Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").ascending());
-            return this.productRepository.findByPriceRange(priceMin,priceMax,pageable);
-        }else if (sortingType.equals("desc")){
-            Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").descending());
-            return this.productRepository.findByPriceRange(priceMin,priceMax,pageable);
-        }else if (sortingType.equals("relevance")){
-            Pageable pageable = PageRequest.of(page-1,max,Sort.by("sold").descending());
-            return this.productRepository.findByPriceRange(priceMin,priceMax,pageable);
+        if (sortingType.equals("asc")) {
+            Pageable pageable = PageRequest.of(page - 1, max, Sort.by("price").ascending());
+            return this.productRepository.findByPriceRange(priceMin, priceMax, pageable);
+        } else if (sortingType.equals("desc")) {
+            Pageable pageable = PageRequest.of(page - 1, max, Sort.by("price").descending());
+            return this.productRepository.findByPriceRange(priceMin, priceMax, pageable);
+        } else if (sortingType.equals("relevance")) {
+            Pageable pageable = PageRequest.of(page - 1, max, Sort.by("sold").descending());
+            return this.productRepository.findByPriceRange(priceMin, priceMax, pageable);
         }
 
         throw new GeneralException("Sorting Type Unrecognizable.");
@@ -86,40 +86,39 @@ public class ProductService {
 
 
     private Page<Product> getProductsWithCategoryAndPriceRange(int page, int max, Category cat, Integer priceMax, Integer priceMin) {
-        Pageable pageable = PageRequest.of(page-1,max);
-        return this.productRepository.findByCategoryIdAndPriceRange(cat.getId(),priceMin,priceMax,pageable);  
+        Pageable pageable = PageRequest.of(page - 1, max);
+        return this.productRepository.findByCategoryIdAndPriceRange(cat.getId(), priceMin, priceMax, pageable);
     }
 
 
     private Page<Product> getProductsWithCategorySortedAndWithPriceRange(int page, int max, Category cat, String sortingType, Integer priceMax, Integer priceMin) {
-        if (sortingType.equals("desc")){
-            Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").descending());
-            return this.productRepository.findByCategoryIdAndPriceRange(cat.getId(),priceMin,priceMax,pageable);
-        }else if (sortingType.equals("asc")){
-            Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").ascending());
-            return this.productRepository.findByCategoryIdAndPriceRange(cat.getId(),priceMin,priceMax,pageable);
-        }else if (sortingType.equals("relevance")){
-            Pageable pageable = PageRequest.of(page-1,max,Sort.by("sold").descending());
-            return this.productRepository.findByCategoryIdAndPriceRange(cat.getId(),priceMin,priceMax,pageable);
+        if (sortingType.equals("desc")) {
+            Pageable pageable = PageRequest.of(page - 1, max, Sort.by("price").descending());
+            return this.productRepository.findByCategoryIdAndPriceRange(cat.getId(), priceMin, priceMax, pageable);
+        } else if (sortingType.equals("asc")) {
+            Pageable pageable = PageRequest.of(page - 1, max, Sort.by("price").ascending());
+            return this.productRepository.findByCategoryIdAndPriceRange(cat.getId(), priceMin, priceMax, pageable);
+        } else if (sortingType.equals("relevance")) {
+            Pageable pageable = PageRequest.of(page - 1, max, Sort.by("sold").descending());
+            return this.productRepository.findByCategoryIdAndPriceRange(cat.getId(), priceMin, priceMax, pageable);
 
         }
 
         throw new GeneralException("Sorting Type Unrecognizable.");
 
 
-
     }
 
     private Page<Product> getAllProductsSorted(int page, int max, String sortingType) {
 
-        if (sortingType.equals("desc")){
-            Pageable pageable = PageRequest.of(page-1,max, Sort.by("price").descending());
+        if (sortingType.equals("desc")) {
+            Pageable pageable = PageRequest.of(page - 1, max, Sort.by("price").descending());
             return this.productRepository.findAll(pageable);
-        }else if (sortingType.equals("asc")){
-            Pageable pageable = PageRequest.of(page-1,max, Sort.by("price").ascending());
+        } else if (sortingType.equals("asc")) {
+            Pageable pageable = PageRequest.of(page - 1, max, Sort.by("price").ascending());
             return this.productRepository.findAll(pageable);
-        }else if (sortingType.equals("relevance")){
-            Pageable pageable = PageRequest.of(page-1,max, Sort.by("sold").descending());
+        } else if (sortingType.equals("relevance")) {
+            Pageable pageable = PageRequest.of(page - 1, max, Sort.by("sold").descending());
             return this.productRepository.findAll(pageable);
         }
 
@@ -129,98 +128,116 @@ public class ProductService {
     }
 
     private Page<Product> getAllProducts(int page, int max) {
-        Pageable pageable = PageRequest.of(page-1,max);
+        Pageable pageable = PageRequest.of(page - 1, max);
         return this.productRepository.findAll(pageable);
     }
 
     private Page<Product> getProductsWithCategory(int page, int max, Category cat) {
-        Pageable pageable = PageRequest.of(page-1,max);
-        return this.productRepository.findByCategory(pageable,cat);
+        Pageable pageable = PageRequest.of(page - 1, max);
+        return this.productRepository.findByCategory(pageable, cat);
 
     }
 
     private Page<Product> getProductsWithCategoryAndSorted(int page, int max, Category cat, String sortingType) {
 
-        if (sortingType.equals("desc")){
-            Pageable pageable = PageRequest.of(page-1,max, Sort.by("price").descending());
-            return this.productRepository.findByCategory(pageable,cat);
-        }else if (sortingType.equals("asc")){
-            Pageable pageable = PageRequest.of(page-1,max, Sort.by("price").ascending());
-            return this.productRepository.findByCategory(pageable,cat);
-        }else if (sortingType.equals("relevance")){
-            Pageable pageable = PageRequest.of(page-1,max, Sort.by("sold").descending());
-            return this.productRepository.findByCategory(pageable,cat);
+        if (sortingType.equals("desc")) {
+            Pageable pageable = PageRequest.of(page - 1, max, Sort.by("price").descending());
+            return this.productRepository.findByCategory(pageable, cat);
+        } else if (sortingType.equals("asc")) {
+            Pageable pageable = PageRequest.of(page - 1, max, Sort.by("price").ascending());
+            return this.productRepository.findByCategory(pageable, cat);
+        } else if (sortingType.equals("relevance")) {
+            Pageable pageable = PageRequest.of(page - 1, max, Sort.by("sold").descending());
+            return this.productRepository.findByCategory(pageable, cat);
         }
 
         throw new GeneralException("Sorting Type Unrecognizable.");
 
     }
 
-    public Page<Product> getProductsByMultipleCategories(int page, int max, List<Category> categories, String sortingType,Integer priceMax, Integer priceMin){
+    public Page<Product> getProductsByMultipleCategories(int page, int max, List<Category> categories, String sortingType, Integer priceMax, Integer priceMin) {
 
         List<Integer> categoryIds = new ArrayList<>();
 
-        for (Category cat : categories){
+        for (Category cat : categories) {
             if (cat.isChecked()) categoryIds.add(cat.getId());
         }
 
-        if (categoryIds.size() > 0){
+        if (categoryIds.size() > 0) {
 
-            if (sortingType.equals("asc")){
-                Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").ascending());
-                return this.productRepository.findByMultipleCategoryIds(categoryIds,pageable);
-            }else if (sortingType.equals("desc")){
-                Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").descending());
-                return this.productRepository.findByMultipleCategoryIds(categoryIds,pageable);
-            }else if (sortingType.equals("relevance")){
-                Pageable pageable = PageRequest.of(page-1,max,Sort.by("sold").descending());
-                return this.productRepository.findByMultipleCategoryIds(categoryIds,pageable);
+            if (!sortingType.equals("unsorted") && priceMax != null && priceMin != null){
+
+                return getProductsWithMultipleCategoriesWithSortTypeAndPriceRange(page,max,categoryIds,sortingType,priceMax,priceMin);
+
+            }else if (sortingType.equals("unsorted") && priceMax != null && priceMin != null){
+
+                return getProductsWithMultipleCategoriesAndPriceRange(page,max,categoryIds,priceMax,priceMin);
+
+            }else if (!sortingType.equals("unsorted")){
+                return getProductsWithMultipleCategoriesAndSortingType(page,max,categoryIds,sortingType);
             }else if (sortingType.equals("unsorted")){
-                Pageable pageable = PageRequest.of(page-1,max);
-                return this.productRepository.findByMultipleCategoryIds(categoryIds,pageable);
+                return getProductsWithMultipleCategories(page,max,categoryIds);
             }
+
 
         }
 
-        return serviceProductHandler(page,max,"all","unsorted", priceMax, priceMin);
+        return getAllProducts(page,max);
+
+
 
 
     }
 
-    /*
+    private Page<Product> getProductsWithMultipleCategories(int page, int max, List<Integer> categoryIds) {
 
-    public Page<Product> getProductsByMultipleCategoriesAndPriceRange(int page, int max, List<Category> categories,
-                                                                      String sortingType, Integer minPrice, Integer maxPrice){
-        List<Integer> categoryIds = new ArrayList<>();
-
-        for (Category cat : categories){
-            if (cat.isChecked()) categoryIds.add(cat.getId());
-        }
-
-        if (categoryIds.size() > 0){
-
-            if (sortingType.equals("asc")){
-                Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").ascending());
-                return this.productRepository.findByMultipleCategoryIdsAndPriceRange(categoryIds,minPrice,maxPrice,pageable);
-            }else if (sortingType.equals("desc")){
-                Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").descending());
-                return this.productRepository.findByMultipleCategoryIdsAndPriceRange(categoryIds,minPrice,maxPrice,pageable);
-            }else if (sortingType.equals("relevance")){
-                Pageable pageable = PageRequest.of(page-1,max,Sort.by("sold").descending());
-                return this.productRepository.findByMultipleCategoryIdsAndPriceRange(categoryIds,minPrice,maxPrice,pageable);
-            }else if (sortingType.equals("unsorted")){
-                Pageable pageable = PageRequest.of(page-1,max);
-                return this.productRepository.findByMultipleCategoryIdsAndPriceRange(categoryIds,minPrice,maxPrice,pageable);
-            }
-        }
-
-
-
-        return this.productRepository.findByPriceRange(minPrice,maxPrice,pageable);
+        Pageable pageable = PageRequest.of(page-1,max);
+        return this.productRepository.findByMultipleCategoryIds(categoryIds,pageable);
 
     }
 
+    private Page<Product> getProductsWithMultipleCategoriesAndSortingType(int page, int max, List<Integer> categoryIds, String sortingType) {
 
-     */
+        if (sortingType.equals("asc")){
+            Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").ascending());
+            return this.productRepository.findByMultipleCategoryIds(categoryIds,pageable);
+        }else if (sortingType.equals("desc")){
+            Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").descending());
+            return this.productRepository.findByMultipleCategoryIds(categoryIds,pageable);
+        }else if (sortingType.equals("relevance")){
+            Pageable pageable = PageRequest.of(page-1,max,Sort.by("sold").descending());
+            return this.productRepository.findByMultipleCategoryIds(categoryIds,pageable);
+        }
 
+        return null;
+
+
+
+    }
+
+    private Page<Product> getProductsWithMultipleCategoriesAndPriceRange(int page, int max, List<Integer> categoryIds, Integer priceMax, Integer priceMin) {
+
+        Pageable pageable = PageRequest.of(page-1,max);
+        return this.productRepository.findByMultipleCategoryIdsAndPriceRange(categoryIds,priceMin,priceMax,pageable);
+
+    }
+
+    private Page<Product> getProductsWithMultipleCategoriesWithSortTypeAndPriceRange(int page, int max, List<Integer> categoryIds, String sortingType, Integer priceMax, Integer priceMin) {
+
+        if (sortingType.equals("asc")){
+            Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").ascending());
+            return this.productRepository.findByMultipleCategoryIdsAndPriceRange(categoryIds,priceMin,priceMax,pageable);
+        }else if (sortingType.equals("desc")){
+            Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").descending());
+            return this.productRepository.findByMultipleCategoryIdsAndPriceRange(categoryIds,priceMin,priceMax,pageable);
+
+        }else if (sortingType.equals("relevance")){
+            Pageable pageable = PageRequest.of(page-1,max,Sort.by("sold").descending());
+            return this.productRepository.findByMultipleCategoryIdsAndPriceRange(categoryIds,priceMin,priceMax,pageable);
+        }
+
+        return null;
+
+
+    }
 }

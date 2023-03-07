@@ -66,8 +66,6 @@ public class StoreController {
         model.addAttribute("priceMaxParam",priceMax);
         model.addAttribute("priceMinParam",priceMin);
 
-
-
         return "store";
     }
     @GetMapping("/store")
@@ -91,6 +89,13 @@ public class StoreController {
 
         String filtersOn  = sb.toString();
 
+        String sortingDisplayName = new String();
+
+        if (sortingType.equals("unsorted")) sortingDisplayName = "Any";
+        else if (sortingType.equals("asc")) sortingDisplayName = "Lowest Prices";
+        else if (sortingType.equals("desc")) sortingDisplayName = "Highest Prices";
+        else if (sortingType.equals("relevance")) sortingDisplayName = "Best Sellers";
+
         if(this.allCategories == null){
             this.allCategories = this.categoryService.getAllCategories();
         }
@@ -101,20 +106,24 @@ public class StoreController {
 
         Page<Product> productsPaginated = this.productService.getProductsByMultipleCategories(page,max,this.allCategories,sortingType,priceMax,priceMin);
 
+        String priceRangeFilter = "";
+        if (priceMax != null & priceMin != null) priceRangeFilter = "&priceMin="+priceMin+"&priceMax="+priceMax;
+
         model.addAttribute("productsPaginated",productsPaginated);
         model.addAttribute("currentPage",page);
         model.addAttribute("totalPages",productsPaginated.getTotalPages());
         model.addAttribute("selectedMax",max);
         model.addAttribute("sortingType",sortingType);
-        model.addAttribute("sortingDisplayName","sdsd");
+        model.addAttribute("sortingDisplayName",sortingDisplayName);
         model.addAttribute("allCategories",this.allCategories);
         model.addAttribute("cameras",cameras);
         model.addAttribute("laptops",laptops);
         model.addAttribute("headsets",headsets);
         model.addAttribute("smartphones",smartphones);
         model.addAttribute("filtersOn",filtersOn);
-        model.addAttribute("priceMax",priceMax);
-        model.addAttribute("priceMin",priceMin);
+        model.addAttribute("priceRangeFilter",priceRangeFilter);
+        model.addAttribute("priceMaxParam",priceMax);
+        model.addAttribute("priceMinParam",priceMin);
 
 
         return "store";
