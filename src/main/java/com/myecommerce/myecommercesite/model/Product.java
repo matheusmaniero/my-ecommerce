@@ -2,6 +2,8 @@ package com.myecommerce.myecommercesite.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "products")
@@ -43,6 +45,10 @@ public class Product {
     private Long ean;
     @Column(name="sold")
     private Integer sold;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductPhoto> productPhotos;
+
 
     public Product(){
     }
@@ -201,6 +207,10 @@ public class Product {
 
     public void setSold(Integer sold) {
         this.sold = sold;
+    }
+
+    public List<ProductPhoto> getProductPhotos() {
+        return productPhotos;
     }
 };
 

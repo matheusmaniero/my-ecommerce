@@ -165,14 +165,15 @@ VALUES
 (7,'laptop7_3.png'),
 (8,'laptop8_1.png'),
 (8,'laptop8_2.png'),
-(8,'laptop8_3.png');
+(8,'laptop8_3.png'),
+(9, 'laptop1_1.png'),
+(9, 'laptop1_2.png'),
+(9, 'laptop1_3.png');
 
 
 INSERT INTO product_photos (fk_product_id, file_name)
 VALUES
-(9, 'camera1_1.png'),
-(9, 'camera1_2.png'),
-(9, 'camera1_3.png'),
+
 (10, 'camera2_1.png'),
 (10, 'camera2_2.png'),
 (10, 'camera2_3.png'),
@@ -181,7 +182,6 @@ VALUES
 (11, 'camera3_3.png'),
 (12, 'camera4_1.png'),
 (12, 'camera4_2.png'),
-(12, 'camera4_3.png'),
 (13, 'camera5_1.png'),
 (13, 'camera5_2.png'),
 (13, 'camera5_3.png'),
@@ -199,13 +199,15 @@ VALUES
 (17, 'camera9_3.png'),
 (18, 'camera10_1.png'),
 (18, 'camera10_2.png'),
-(18, 'camera10_3.png');
+(18, 'camera10_3.png'),
+(19,'camera1_1.png'),
+(19,'camera1_2.png'),
+(19,'camera1_3.png');
 
 
 INSERT INTO product_photos (fk_product_id,file_name)
-VALUES (19,'smartphone1_1.png'),
-(19,'smartphone1_2.png'),
-(19,'smartphone1_3.png'),
+VALUES
+
 (20,'smartphone2_1.png'),
 (20,'smartphone2_2.png'),
 (20,'smartphone2_3.png'),
@@ -232,12 +234,13 @@ VALUES (19,'smartphone1_1.png'),
 (27,'smartphone9_3.png'),
 (28,'smartphone8_1.png'),
 (28,'smartphone8_2.png'),
-(28,'smartphone8_3.png');
+(28,'smartphone8_3.png'),
+(29,'smartphone1_1.png'),
+(29,'smartphone1_2.png'),
+(29,'smartphone1_3.png');
 
 INSERT INTO product_photos (fk_product_id,file_name)
-VALUES (29,'headset1_1.png'),
-(29,'headset1_2.png'),
-(29,'headset1_3.png'),
+VALUES
 (30,'headset2_1.png'),
 (30,'headset2_2.png'),
 (30,'headset2_3.png'),
@@ -264,4 +267,7 @@ VALUES (29,'headset1_1.png'),
   (37,'headset9_3.png'),
 (38,'headset10_1.png'),
 (38,'headset10_2.png'),
- (38,'headset10_3.png');
+ (38,'headset10_3.png'),
+ (39,'headset11_1.png'),
+ (39,'headset11_2.png'),
+  (39,'headset11_3.png');

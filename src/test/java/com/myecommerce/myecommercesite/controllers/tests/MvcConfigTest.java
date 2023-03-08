@@ -1,6 +1,6 @@
 package com.myecommerce.myecommercesite.controllers.tests;
 
-import com.myecommerce.myecommercesite.controller.StaticPagesController;
+import com.myecommerce.myecommercesite.controller.MvcConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,9 +11,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@WebMvcTest(StaticPagesController.class)
+@WebMvcTest(MvcConfig.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class StaticPagesControllerTest {
+public class MvcConfigTest {
 
     @Autowired
     MockMvc mockMvc;

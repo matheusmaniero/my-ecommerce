@@ -5,7 +5,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class StaticPagesController implements WebMvcConfigurer {
+public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry){
@@ -16,8 +16,8 @@ public class StaticPagesController implements WebMvcConfigurer {
         registry.addViewController("terms").setViewName("pages/terms");
         registry.addViewController("login").setViewName("pages/login");
 
-
     }
+
 
 
 }

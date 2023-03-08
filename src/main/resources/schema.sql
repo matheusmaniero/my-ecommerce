@@ -71,6 +71,7 @@ FOREIGN KEY (fk_product_id) REFERENCES products (id)
 );
 
 CREATE TABLE product_photos (
+id serial NOT NULL,
 fk_product_id integer NOT NULL,
 file_name varchar(255) NOT NULL,
 FOREIGN KEY (fk_product_id) REFERENCES products (id)
