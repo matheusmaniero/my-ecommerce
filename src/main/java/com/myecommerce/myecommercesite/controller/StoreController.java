@@ -11,8 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,16 +37,10 @@ public class StoreController {
                                @RequestParam(defaultValue = "unsorted") String sortingType, Model model,@RequestParam(required = false) Integer priceMax,
                                @RequestParam (required = false) Integer priceMin){
 
-
+        Page<Product> bestSellersPaginated = this.productService.getBestSellers(1,3);
 
         Page<Product> productsPaginated = this.productService.serviceProductHandler(page,max,category,sortingType,priceMax,priceMin);
          allCategories = this.categoryService.getAllCategories();
-
-         for (Product product  : productsPaginated){
-             product.getProductPhotos().get(0).getPhoto();
-         }
-
-
 
         if (productsPaginated == null) return "error";
 
@@ -61,7 +55,6 @@ public class StoreController {
         if (priceMax != null & priceMin != null) priceRangeFilter = "&priceMin="+priceMin+"&priceMax="+priceMax;
 
 
-
         model.addAttribute("productsPaginated",productsPaginated);
         model.addAttribute("currentPage",page);
         model.addAttribute("totalPages",productsPaginated.getTotalPages());
@@ -72,6 +65,7 @@ public class StoreController {
         model.addAttribute("priceRangeFilter",priceRangeFilter);
         model.addAttribute("priceMaxParam",priceMax);
         model.addAttribute("priceMinParam",priceMin);
+        model.addAttribute("bestSellerPage",bestSellersPaginated);
 
         return "store";
     }
@@ -110,7 +104,7 @@ public class StoreController {
         for(Category cat : this.allCategories){
             if (cat.isChecked() != map.get(cat.getName())) cat.setChecked(map.get(cat.getName()));
         }
-
+        Page<Product> bestSellersPaginated = this.productService.getBestSellers(1,3);
         Page<Product> productsPaginated = this.productService.getProductsByMultipleCategories(page,max,this.allCategories,sortingType,priceMax,priceMin);
 
         String priceRangeFilter = "";
@@ -131,11 +125,13 @@ public class StoreController {
         model.addAttribute("priceRangeFilter",priceRangeFilter);
         model.addAttribute("priceMaxParam",priceMax);
         model.addAttribute("priceMinParam",priceMin);
-
-
+        model.addAttribute("bestSellerPage",bestSellersPaginated);
         return "store";
 
     }
+
+
+
 
 
 

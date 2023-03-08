@@ -1,12 +1,15 @@
 package com.myecommerce.myecommercesite.model;
 
 import jakarta.persistence.*;
+import org.springframework.data.redis.core.RedisHash;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name="categories")
-public class Category {
+
+public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

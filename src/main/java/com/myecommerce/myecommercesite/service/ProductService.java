@@ -5,6 +5,7 @@ import com.myecommerce.myecommercesite.model.Category;
 import com.myecommerce.myecommercesite.model.Product;
 import com.myecommerce.myecommercesite.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -240,4 +241,13 @@ public class ProductService {
 
 
     }
+    @Cacheable("best-sellers")
+    public Page<Product> getBestSellers(int page, int max) {
+        Pageable pageable = PageRequest.of(page-1,max,Sort.by("sold").descending());
+        System.out.println("New Cache");
+        return this.productRepository.findAll(pageable);
+    }
+
+
+
 }

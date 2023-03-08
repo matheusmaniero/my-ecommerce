@@ -1,15 +1,18 @@
 package com.myecommerce.myecommercesite.model;
 
 import jakarta.persistence.*;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.Base64;
 
 @Entity
 @Table(name="product_photos")
-public class ProductPhoto {
+
+public class ProductPhoto implements Serializable {
 
     final static String imagePath = "/home/matheuz/resizedimages/";
 
@@ -72,7 +75,6 @@ public class ProductPhoto {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("cheguei aki");
 
     }
 }

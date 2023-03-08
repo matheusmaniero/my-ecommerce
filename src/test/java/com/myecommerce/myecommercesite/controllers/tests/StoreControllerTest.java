@@ -35,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(StoreController.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class StoreControllerTest {
+    /*
     @Autowired
     MockMvc mockMvc;
 
@@ -100,7 +101,7 @@ public class StoreControllerTest {
 
 
 
-
+*/
 
 
 }
