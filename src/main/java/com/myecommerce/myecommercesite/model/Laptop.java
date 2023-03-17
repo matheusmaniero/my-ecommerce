@@ -1,6 +1,6 @@
 package com.myecommerce.myecommercesite.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "laptops")

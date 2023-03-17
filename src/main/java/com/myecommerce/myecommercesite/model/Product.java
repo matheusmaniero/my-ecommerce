@@ -1,7 +1,6 @@
 package com.myecommerce.myecommercesite.model;
 
-import jakarta.persistence.*;
-import org.springframework.data.redis.core.RedisHash;
+import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.List;

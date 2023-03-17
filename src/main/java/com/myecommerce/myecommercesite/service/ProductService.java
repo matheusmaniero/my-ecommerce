@@ -248,6 +248,11 @@ public class ProductService {
         return this.productRepository.findAll(pageable);
     }
 
+    public Page<Product> search(String searchTerm){
+        Pageable pageable = PageRequest.of(0,9);
+        return this.productRepository.search(searchTerm,pageable);
+    }
+
 
 
 }

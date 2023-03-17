@@ -28,5 +28,8 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     @Query("SELECT p FROM Product p JOIN p.category c WHERE c.id IN :categoryIds AND p.price BETWEEN :minPrice AND :maxPrice")
     Page<Product> findByCategoryIdAndPriceRange(@Param("categoryIds") Integer categoryId, @Param("minPrice") Integer minPrice, @Param("maxPrice") Integer  maxPrice, Pageable pageable);
 
+    @Query("SELECT p FROM Product p WHERE fts(:searchTerm) = true order by rank(:searchTerm) desc")
+    Page<Product> search(@Param("searchTerm") String searchTerm, Pageable pageable);
+
 
 }
