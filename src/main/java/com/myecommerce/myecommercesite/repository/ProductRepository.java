@@ -20,16 +20,22 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     Page<Product> findByMultipleCategoryIds(@Param("categoryIds") List<Integer> categoryIds, Pageable pageable);
 
     @Query("SELECT p FROM Product p JOIN p.category c WHERE c.id IN :categoryIds AND p.price BETWEEN :minPrice AND :maxPrice")
-    Page<Product> findByMultipleCategoryIdsAndPriceRange(@Param("categoryIds") List<Integer> categoryIds, @Param("minPrice") Integer minPrice, @Param("maxPrice") Integer  maxPrice, Pageable pageable);
+    Page<Product> findByMultipleCategoryIdsAndPriceRange(@Param("categoryIds") List<Integer> categoryIds, @Param("minPrice") Double minPrice, @Param("maxPrice") Double  maxPrice, Pageable pageable);
 
     @Query("SELECT p FROM Product p WHERE p.price BETWEEN :minPrice AND :maxPrice")
-    Page<Product> findByPriceRange(@Param("minPrice") Integer minPrice, @Param("maxPrice") Integer  maxPrice, Pageable pageable);
+    Page<Product> findByPriceRange(@Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice, Pageable pageable);
 
     @Query("SELECT p FROM Product p JOIN p.category c WHERE c.id IN :categoryIds AND p.price BETWEEN :minPrice AND :maxPrice")
-    Page<Product> findByCategoryIdAndPriceRange(@Param("categoryIds") Integer categoryId, @Param("minPrice") Integer minPrice, @Param("maxPrice") Integer  maxPrice, Pageable pageable);
+    Page<Product> findByCategoryIdAndPriceRange(@Param("categoryIds") Integer categoryId, @Param("minPrice")  Double minPrice, @Param("maxPrice") Double maxPrice, Pageable pageable);
 
     @Query("SELECT p FROM Product p WHERE fts(:searchTerm) = true order by rank(:searchTerm) desc")
-    Page<Product> search(@Param("searchTerm") String searchTerm, Pageable pageable);
+    Page<Product> searchAllCategories(@Param("searchTerm") String searchTerm, Pageable pageable);
 
+    @Query("SELECT p FROM Product p JOIN p.category c WHERE c.id IN :categoryId AND fts(:searchTerm) = true order by rank(:searchTerm) desc")
+    Page<Product> searchByCategory(@Param("searchTerm") String searchTerm, Pageable pageable, Integer categoryId);
+
+    @Query("SELECT p FROM Product p JOIN p.category c WHERE c.id IN :categoryId AND p.price BETWEEN :priceMin AND :priceMax AND fts(:searchTerm) = true order by rank(:searchTerm) desc")
+    Page<Product> searchByCategoryWithPrices(@Param("searchTerm") String searchTerm, Pageable pageable, Integer categoryId,
+                                             @Param("priceMin") Double priceMin, @Param("priceMax") Double priceMax);
 
 }

@@ -28,7 +28,7 @@ public class ProductService {
         this.categoryService = categoryService;
     }
 
-    public Page<Product> serviceProductHandler(int page, int max, String category, String sortingType, Integer priceMax, Integer priceMin) {
+    public Page<Product> serviceProductHandler(int page, int max, String category, String sortingType, Double priceMax, Double priceMin) {
 
         if (!category.equals("all") && !sortingType.equals("unsorted") && priceMax == null && priceMin == null) {
             Category cat = this.categoryService.getCategoryByName(category);
@@ -60,14 +60,14 @@ public class ProductService {
 
     }
 
-    private Page<Product> getAllProductsWithPriceRange(int page, int max, Integer priceMax, Integer priceMin) {
+    private Page<Product> getAllProductsWithPriceRange(int page, int max, Double priceMax, Double priceMin) {
 
         Pageable pageable = PageRequest.of(page - 1, max);
         return this.productRepository.findByPriceRange(priceMin, priceMax, pageable);
 
     }
 
-    private Page<Product> getAllProductsWithSortingAndPriceRange(int page, int max, String sortingType, Integer priceMax, Integer priceMin) {
+    private Page<Product> getAllProductsWithSortingAndPriceRange(int page, int max, String sortingType, Double priceMax, Double priceMin) {
 
         if (sortingType.equals("asc")) {
             Pageable pageable = PageRequest.of(page - 1, max, Sort.by("price").ascending());
@@ -86,13 +86,13 @@ public class ProductService {
     }
 
 
-    private Page<Product> getProductsWithCategoryAndPriceRange(int page, int max, Category cat, Integer priceMax, Integer priceMin) {
+    private Page<Product> getProductsWithCategoryAndPriceRange(int page, int max, Category cat, Double priceMax, Double priceMin) {
         Pageable pageable = PageRequest.of(page - 1, max);
         return this.productRepository.findByCategoryIdAndPriceRange(cat.getId(), priceMin, priceMax, pageable);
     }
 
 
-    private Page<Product> getProductsWithCategorySortedAndWithPriceRange(int page, int max, Category cat, String sortingType, Integer priceMax, Integer priceMin) {
+    private Page<Product> getProductsWithCategorySortedAndWithPriceRange(int page, int max, Category cat, String sortingType, Double priceMax, Double priceMin) {
         if (sortingType.equals("desc")) {
             Pageable pageable = PageRequest.of(page - 1, max, Sort.by("price").descending());
             return this.productRepository.findByCategoryIdAndPriceRange(cat.getId(), priceMin, priceMax, pageable);
@@ -156,7 +156,7 @@ public class ProductService {
 
     }
 
-    public Page<Product> getProductsByMultipleCategories(int page, int max, List<Category> categories, String sortingType, Integer priceMax, Integer priceMin) {
+    public Page<Product> getProductsByMultipleCategories(int page, int max, List<Category> categories, String sortingType, Double priceMax, Double priceMin) {
 
         List<Integer> categoryIds = new ArrayList<>();
 
@@ -216,14 +216,14 @@ public class ProductService {
 
     }
 
-    private Page<Product> getProductsWithMultipleCategoriesAndPriceRange(int page, int max, List<Integer> categoryIds, Integer priceMax, Integer priceMin) {
+    private Page<Product> getProductsWithMultipleCategoriesAndPriceRange(int page, int max, List<Integer> categoryIds, Double priceMax, Double priceMin) {
 
         Pageable pageable = PageRequest.of(page-1,max);
         return this.productRepository.findByMultipleCategoryIdsAndPriceRange(categoryIds,priceMin,priceMax,pageable);
 
     }
 
-    private Page<Product> getProductsWithMultipleCategoriesWithSortTypeAndPriceRange(int page, int max, List<Integer> categoryIds, String sortingType, Integer priceMax, Integer priceMin) {
+    private Page<Product> getProductsWithMultipleCategoriesWithSortTypeAndPriceRange(int page, int max, List<Integer> categoryIds, String sortingType, Double priceMax, Double priceMin) {
 
         if (sortingType.equals("asc")){
             Pageable pageable = PageRequest.of(page-1,max,Sort.by("price").ascending());
@@ -248,9 +248,18 @@ public class ProductService {
         return this.productRepository.findAll(pageable);
     }
 
-    public Page<Product> search(String searchTerm){
-        Pageable pageable = PageRequest.of(0,9);
-        return this.productRepository.search(searchTerm,pageable);
+    public Page<Product> search(String searchTerm, String category, int page, int max, Double priceMax, Double priceMin){
+        Pageable pageable = PageRequest.of(page-1,max);
+        if (category.equals("all")){
+            return this.productRepository.searchAllCategories(searchTerm,pageable);
+        }if (priceMax == null && priceMin == null){
+            Category cat = this.categoryService.getCategoryByName(category);
+            return this.productRepository.searchByCategory(searchTerm,pageable,cat.getId());
+        }
+        Category cat = this.categoryService.getCategoryByName(category);
+        return this.productRepository.searchByCategoryWithPrices(searchTerm,pageable,cat.getId(),priceMin,priceMax);
+
+
     }
 
 

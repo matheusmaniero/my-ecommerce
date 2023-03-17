@@ -14,7 +14,7 @@
 					<div id="aside" class="col-md-3">
 						<!-- aside Widget -->
 						<div class="aside">
-							<h3 class="aside-title">Categories</h3>
+							<h3 class="aside-title" >Categories</h3>
 							<div class="checkbox-filter"  >
 
 								<form class="form-category" action="/store" method="get" >
@@ -177,7 +177,7 @@
 						<div class="store-filter clearfix">
 							<ul class="store-pagination" th:if="${totalPages} > 1" th:each="i: ${#numbers.sequence(totalPages,1)}">
 								<li th:if="${currentPage != i}">
-									<a th:href="@{'?page='+${i}}+'&max='+${selectedMax}+'&sortingType='+${sortingType}+ ${filtersOn != null and filtersOn != '' ? filtersOn : ''}+${priceRangeFilter != null and priceRangeFilter != '' ? priceRangeFilter : ''}">[[${i}]]</a>
+									<a th:href="@{'?page='+${i}}+'&max='+${selectedMax}+'&sortingType='+${sortingType}+ ${filtersOn != null and filtersOn != '' ? filtersOn : ''}+${priceRangeFilter != null and priceRangeFilter != '' ? priceRangeFilter : ''}+${searchConcat != null and searchConcat != '' ? searchConcat : ''}">[[${i}]]</a>
 								</li>
 								<li th:unless="${currentPage != i}" class="active">[[${i}]]</li>
 							</ul>

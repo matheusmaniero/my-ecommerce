@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,8 +33,8 @@ public class StoreController {
     @GetMapping("/store/{category}")
     public String showProducts(@PathVariable String category ,@RequestParam(defaultValue = "1") int page,
                                @RequestParam(defaultValue = "9") int max,
-                               @RequestParam(defaultValue = "unsorted") String sortingType, Model model,@RequestParam(required = false) Integer priceMax,
-                               @RequestParam (required = false) Integer priceMin){
+                               @RequestParam(defaultValue = "unsorted") String sortingType, Model model,@RequestParam(required = false) Double priceMax,
+                               @RequestParam (required = false) Double priceMin){
 
         Page<Product> bestSellersPaginated = this.productService.getBestSellers(1,3);
 
@@ -70,10 +69,10 @@ public class StoreController {
         return "store";
     }
     @GetMapping("/store")
-    public String showProductsWithMultipleCategories(@RequestParam(required = false,name = "Laptops") boolean laptops,@RequestParam(required = false,name = "Cameras") boolean cameras,
-                                                     @RequestParam(required = false,name = "Headsets") boolean headsets,@RequestParam(required = false,name = "Smartphones") boolean smartphones,
-                                                     Model model,@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "9") int max,@RequestParam(required = false) Integer priceMax,
-                                                     @RequestParam (required = false) Integer priceMin, @RequestParam(defaultValue = "unsorted") String sortingType){
+    public String showProductsWithMultipleCategories(@RequestParam(required = false,name = "Laptops") boolean laptops, @RequestParam(required = false,name = "Cameras") boolean cameras,
+                                                     @RequestParam(required = false,name = "Headsets") boolean headsets, @RequestParam(required = false,name = "Smartphones") boolean smartphones,
+                                                     Model model, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "9") int max, @RequestParam(required = false) Double priceMax,
+                                                     @RequestParam (required = false) Double priceMin, @RequestParam(defaultValue = "unsorted") String sortingType){
 
         map.put("Laptops",laptops);
         map.put("Cameras",cameras);
@@ -126,6 +125,48 @@ public class StoreController {
         model.addAttribute("priceMaxParam",priceMax);
         model.addAttribute("priceMinParam",priceMin);
         model.addAttribute("bestSellerPage",bestSellersPaginated);
+        return "store";
+
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam String searchTerm, @RequestParam String category,
+                         @RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "9") int max,
+                         Model model, @RequestParam(defaultValue = "unsorted") String sortingType,
+                         @RequestParam(required = false) Double priceMax,
+                         @RequestParam (required = false) Double priceMin){
+
+        Page<Product> productsPaginated = this.productService.search(searchTerm,category,page,max, priceMax,priceMin);
+
+        if (productsPaginated == null) return "error";
+
+        Page<Product> bestSellersPaginated = this.productService.getBestSellers(1,3);
+
+        String sortingDisplayName = new String();
+
+        if (sortingType.equals("unsorted")) sortingDisplayName = "Any";
+        else if (sortingType.equals("asc")) sortingDisplayName = "Lowest Prices";
+        else if (sortingType.equals("desc")) sortingDisplayName = "Highest Prices";
+        else if (sortingType.equals("relevance")) sortingDisplayName = "Best Sellers";
+
+        String priceRangeFilter = "";
+        if (priceMax != null & priceMin != null) priceRangeFilter = "&priceMin="+priceMin+"&priceMax="+priceMax;
+
+        String searchConcat = "&category="+category+"&searchTerm="+searchTerm;
+
+        model.addAttribute("productsPaginated",productsPaginated);
+        model.addAttribute("currentPage",page);
+        model.addAttribute("totalPages",productsPaginated.getTotalPages());
+        model.addAttribute("selectedMax",max);
+        model.addAttribute("sortingType",sortingType);
+        model.addAttribute("sortingDisplayName",sortingDisplayName);
+        model.addAttribute("allCategories",allCategories);
+        model.addAttribute("priceRangeFilter",priceRangeFilter);
+        model.addAttribute("priceMaxParam",priceMax);
+        model.addAttribute("priceMinParam",priceMin);
+        model.addAttribute("bestSellerPage",bestSellersPaginated);
+        model.addAttribute("searchConcat",searchConcat);
+
         return "store";
 
     }
