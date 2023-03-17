@@ -136,7 +136,7 @@ public class StoreController {
                          @RequestParam(required = false) Double priceMax,
                          @RequestParam (required = false) Double priceMin){
 
-        Page<Product> productsPaginated = this.productService.search(searchTerm,category,page,max, priceMax,priceMin);
+        Page<Product> productsPaginated = this.productService.search(searchTerm,category,page,max, priceMax,priceMin, sortingType);
 
         if (productsPaginated == null) return "error";
 
@@ -166,6 +166,8 @@ public class StoreController {
         model.addAttribute("priceMinParam",priceMin);
         model.addAttribute("bestSellerPage",bestSellersPaginated);
         model.addAttribute("searchConcat",searchConcat);
+        model.addAttribute("searchTerm",searchTerm);
+        model.addAttribute("category",category);
 
         return "store";
 

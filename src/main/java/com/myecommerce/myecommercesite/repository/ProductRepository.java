@@ -38,4 +38,6 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     Page<Product> searchByCategoryWithPrices(@Param("searchTerm") String searchTerm, Pageable pageable, Integer categoryId,
                                              @Param("priceMin") Double priceMin, @Param("priceMax") Double priceMax);
 
+    @Query("SELECT p FROM Product p WHERE p.price BETWEEN :priceMin AND :priceMax AND fts(:searchTerm) = true order by rank(:searchTerm) desc")
+    Page<Product> searchAllCategoriesWithPrices(@Param("searchTerm") String searchTerm,@Param("priceMin") Double priceMin, @Param("priceMax") Double priceMax, Pageable pageable);
 }
