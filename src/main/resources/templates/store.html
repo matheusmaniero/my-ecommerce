@@ -101,11 +101,6 @@
 									<input type="hidden" th:if="${category}" name="category" th:value="${category}">
 
 
-
-
-
-
-
 								</form>
 
 								<form action="" method="get">
@@ -143,12 +138,16 @@
 							<!-- product -->
 							<div class="col-md-4 col-xs-6" th:each="product : ${productsPaginated}">
 								<div class="product">
+									<a 	th:href="@{'/good/'+${product.getId()}}">
 									<div class="product-img">
-										<img  th:src="@{'data:image/png;base64,'+${product.getProductPhotos().get(0).getPhoto()}}" />
-										<div class="product-label">
+
+										<img   th:src="@{'data:image/png;base64,'+${product.getProductPhotos().get(0).getPhoto()}}" />
+											<div class="product-label">
 											<span class="sale">-30%</span>
 											<span class="new">NEW</span>
+
 										</div>
+
 									</div>
 									<div class="product-body">
 										<p class="product-category" th:text="${product.getCategory().getName()}">category name goes here</p>
@@ -170,6 +169,7 @@
 									<div class="add-to-cart">
 										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 									</div>
+									</a>
 								</div>
 							</div>
 							<!-- /product -->

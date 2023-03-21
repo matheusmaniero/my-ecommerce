@@ -394,5 +394,16 @@ public class ProductService {
         return productsPaginated;
     }
 
+    public Product getProductById(Integer id){
+        return this.productRepository.getProductById(id);
+    }
 
+
+    public Page<Product> getRelatedProducts(Category category) {
+
+        Pageable pageable = PageRequest.of(0,4,Sort.by("sold").descending());
+
+        return this.productRepository.findByCategory(pageable,category);
+
+    }
 }

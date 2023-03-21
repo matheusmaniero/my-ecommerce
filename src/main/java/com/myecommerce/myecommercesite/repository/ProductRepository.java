@@ -15,7 +15,6 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product,Integer> {
     Page<Product> findAll(Pageable pageable);
     Page<Product> findByCategory(Pageable pageable, Category category);
-
     @Query("SELECT p FROM Product p JOIN p.category c WHERE c.id IN :categoryIds")
     Page<Product> findByMultipleCategoryIds(@Param("categoryIds") List<Integer> categoryIds, Pageable pageable);
 
@@ -81,6 +80,12 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     @Query("SELECT p FROM Product p JOIN p.category c WHERE c.id IN :categoryId AND p.price BETWEEN :priceMin AND :priceMax AND fts(:searchTerm) = true order by rank(:searchTerm) desc, p.sold desc")
     Page<Product> searchByCategoryWithPricesAndRelevance(@Param("searchTerm") String searchTerm, Pageable pageable, Integer categoryId,
                                              @Param("priceMin") Double priceMin, @Param("priceMax") Double priceMax);
+
+
+    Product getProductById(Integer id);
+
+
+
 }
 
 
