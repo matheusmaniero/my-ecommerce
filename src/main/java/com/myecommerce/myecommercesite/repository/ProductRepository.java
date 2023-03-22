@@ -84,6 +84,10 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
 
     Product getProductById(Integer id);
 
+    List<Product> findFirst4ByOrderByIdDesc();
+
+
+
 
 
 }

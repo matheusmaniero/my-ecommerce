@@ -36,7 +36,7 @@ public class StoreController {
                                @RequestParam(defaultValue = "unsorted") String sortingType, Model model,@RequestParam(required = false) Double priceMax,
                                @RequestParam (required = false) Double priceMin){
 
-        Page<Product> bestSellersPaginated = this.productService.getBestSellers(1,3);
+        Page<Product> bestSellersPaginated = this.productService.getBestSellers(1,5);
 
         Page<Product> productsPaginated = this.productService.serviceProductHandler(page,max,category,sortingType,priceMax,priceMin);
          allCategories = this.categoryService.getAllCategories();
@@ -103,7 +103,7 @@ public class StoreController {
         for(Category cat : this.allCategories){
             if (cat.isChecked() != map.get(cat.getName())) cat.setChecked(map.get(cat.getName()));
         }
-        Page<Product> bestSellersPaginated = this.productService.getBestSellers(1,3);
+        Page<Product> bestSellersPaginated = this.productService.getBestSellers(1,5);
         Page<Product> productsPaginated = this.productService.getProductsByMultipleCategories(page,max,this.allCategories,sortingType,priceMax,priceMin);
 
         String priceRangeFilter = "";
@@ -140,7 +140,7 @@ public class StoreController {
 
         if (productsPaginated == null) return "error";
 
-        Page<Product> bestSellersPaginated = this.productService.getBestSellers(1,3);
+        Page<Product> bestSellersPaginated = this.productService.getBestSellers(1,5);
 
         String sortingDisplayName = new String();
 

@@ -406,4 +406,10 @@ public class ProductService {
         return this.productRepository.findByCategory(pageable,category);
 
     }
+
+    public List<Product> getTheFourLastInsertedProducts(){
+        return this.productRepository.findFirst4ByOrderByIdDesc();
+    }
+
+
 }
