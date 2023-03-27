@@ -1,18 +1,23 @@
 package com.myecommerce.myecommercesite.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "smartphones")
 @PrimaryKeyJoinColumn(name = "fk_product_id")
 public class SmartPhone extends Product {
     @Column(name = "storage")
+    @NotNull(message = "This field can't be empty.")
     private Integer storage;
     @Column(name = "screen_size")
+    @NotNull(message = "This field can't be empty.")
     private Double screenSize;
     @Column(name = "operating_system")
+    @NotNull(message = "This field can't be empty.")
     private String operatingSystem;
     @Column(name = "camera_resolution")
+    @NotNull(message = "This field can't be empty.")
     private Integer cameraResolution;
 
     public SmartPhone() {

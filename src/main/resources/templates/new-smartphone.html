@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartphone Registration Form</title>
+    <style>
+
+       .form-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: red;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  color: white;
+}
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="file"],input[type="number"],textarea, select {
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #3e8e41;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+<div th:if="${errors != null}" class="form-wrapper">
+    <ul>
+        <li th:each="error : ${errors}">
+            <span th:text="${error.field}"></span> : <span th:text="${error.defaultMessage}"></span>
+        </li>
+    </ul>
+</div>
+
+</div>
+<form th:object="${smartphone}" method="post" enctype="multipart/form-data">
+    <h1>Smartphone Registration Form</h1>
+    <label for="general-description">General Description:</label>
+    <textarea type="text-area" id="general-description" name="general-description" maxlength="200" th:field="*{generalDescription}"></textarea>
+
+    <label for="technical-description">Technical Description:</label>
+    <textarea type="text-area" id="technical-description" name="technical-description" maxlength="200" th:field="*{technicalDescription}"></textarea>
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required th:field="*{name}">
+
+    <label for="sku">SKU:</label>
+    <input type="text" id="sku" name="sku" required th:field="*{sku}">
+
+    <label for="weight">Weight:</label>
+    <input type="number" step=".01" id="weight" name="weight" required th:field="*{weight}">
+
+    <label for="width">Width:</label>
+    <input type="number" step=".01" id="width" name="width" required th:field="*{width}">
+
+    <label for="height">Height:</label>
+    <input type="number" step=".01" id="height" name="height" required th:field="*{height}">
+
+    <label for="depth">Depth:</label>
+    <input type="number" step=".01" id="depth" name="depth" required th:field="*{depth}">
+
+    <label for="manufacturer">Manufacturer:</label>
+    <input type="text" id="manufacturer" name="manufacturer" required th:field="*{manufacturer}">
+
+    <label for="price">Price:</label>
+    <input type="number" step=".01" id="price" name="price" required th:field="*{price}">
+
+    <label for="color">Color:</label>
+    <input type="text" id="color" name="color" required th:field="*{color}">
+
+    <label for="model">Model:</label>
+    <input type="text" id="model" name="model" required th:field="*{model}">
+
+    <label for="quantity">Quantity:</label>
+    <input type="text" id="quantity" name="quantity" pattern="[0-9]+" required th:field="*{quantity}">
+
+    <label for="ean">EAN:</label>
+    <input type="text" id="ean" name="ean" pattern="[0-9]+" required th:field="*{ean}">
+
+    <label for="storage">Storage:</label>
+    <input type="text" id="storage" name="storage" pattern="[0-9]+" required th:field="*{storage}">
+
+    <label for="screen-size">Screen Size:</label>
+    <input type="number" step=".01" id="screen-size" name="screen-size" required th:field="*{screenSize}">
+
+    <label for="operating-system">Operating System:</label>
+    <input type="text" id="operating-system" name="operating-system" th:field="*{operatingSystem}">
+
+    <label for="camera-resolution">Camera Resolution:</label>
+    <input type="text" id="camera-resolution" pattern="[0-9]+" required name="camera-resolution" th:field="*{cameraResolution}">
+
+    <label for="image1">Image 1:</label>
+    <input type="file" id="image1" name="image1">
+
+    <label for="image2">Image 2:</label>
+    <input type="file" id="image2" name="image2">
+
+    <label for="image3">Image 3:</label>
+    <input type="file" id="image3" name="image3">
+
+    <input type="submit" value="Register">
+</form>
+</body>
+</html>
